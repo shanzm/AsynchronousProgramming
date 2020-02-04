@@ -18,11 +18,11 @@ namespace _002Task类的使用
     {
         static void Main(string[] args)
         {
-            //测试使用Task.Run()
-            //FirstTaskMethod();
+            //测试Task.Run()
+            FirstTaskMethod();
 
             //测试task.Result
-            FirstTaskMethodWithReturn();
+            //FirstTaskMethodWithReturn();
         }
 
         private static void FirstTaskMethodWithReturn()
@@ -39,7 +39,7 @@ namespace _002Task类的使用
             Func<int> Do = () => { Thread.Sleep(1000); Console.WriteLine("Task.Run结束"); return 2; };
             Task<int> task = Task.Run(Do);
             Console.WriteLine(task.Status);//使用task.Status查看当前的Task的状态：当前的状态：WaitingToRun
-            Console.WriteLine(task.Result);//使用task.Result操作Task任务的返回值:返回值是：2
+            Console.WriteLine(task.Result);//使用task.Result操作Task任务的返回值：返回值是：2
             Console.WriteLine(task.Status);//使用task.Status查看当前的Task的状态：当前的状态：RanToComplation
             Console.WriteLine("SomeDoAfterTask");
             Console.ReadKey();
@@ -48,21 +48,21 @@ namespace _002Task类的使用
         private static void FirstTaskMethod()
         {
             //1.使用Task构造函数创建,必须显式的使用.Start()才能开始执行
-            //Task task = new Task(() => { Thread.Sleep(10); Console.WriteLine("我是task ,我结束了"); });
+            //Task task = new Task(() => { Thread.Sleep(1000); Console.WriteLine("我是task ,我结束了"); });
             //task.Start();
 
             //2.使用TaskFactory.StartNew（工厂创建） 方法
-            //Task task = Task.Factory.StartNew(() => { Thread.Sleep(10); Console.WriteLine("我是task ,我结束了"); });
+            //Task task = Task.Factory.StartNew(() => { Thread.Sleep(1000); Console.WriteLine("我是task ,我结束了"); });
 
             //3.使用Task.Run()
-            Task task = Task.Run(() => { Thread.Sleep(10); Console.WriteLine("我是Task.Run ,我结束了"); });
+            Task task = Task.Run(() => { Thread.Sleep(1000); Console.WriteLine("我是Task.Run ,我结束了"); });
             if (!task.IsCompleted)
             {
                 Console.WriteLine("当前的Task.Run()尚未执行完,但是因为异步，返回到调用函数，所以可以先执行后续的代码");
             }
 
             Console.WriteLine("当前Task.Run还没有完成,我们在他之后的代码但是先执行了");
-            task.Wait();//等待task完成
+            task.Wait();//强行锁定线程，等待task完成
             Console.WriteLine("终于Task.Run完成了工作");
             Console.WriteLine($"Task.Run()的返回值result是个啥?是{task}");
             Console.ReadKey();
