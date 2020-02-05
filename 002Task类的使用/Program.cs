@@ -24,27 +24,6 @@ namespace _002Task类的使用
             //测试task.Result
             //FirstTaskMethodWithReturn();
         }
-
-        private static void FirstTaskMethodWithReturn()
-        {
-            #region 说明
-            //调试的注意查看，运行到 Console.WriteLine(task.Result)的时候，其中Task任务还是在执行Thread.Sleep(1000)
-            //还没有出结果，但是我们希望的异步执行也没有发生，而是一直在等待
-            //是为什么呢？
-            //是因为一胆执行了task.Result，即使task任务还没有完成，整体线程都会被锁死，直到等待task.Result出结果
-            //所以可以这样理解:task.Result可以看作是一个未来
-            #endregion
-
-            Console.WriteLine("SomeDoBeforeTask");
-            Func<int> Do = () => { Thread.Sleep(1000); Console.WriteLine("Task.Run结束"); return 2; };
-            Task<int> task = Task.Run(Do);
-            Console.WriteLine(task.Status);//使用task.Status查看当前的Task的状态：当前的状态：WaitingToRun
-            Console.WriteLine(task.Result);//使用task.Result操作Task任务的返回值：返回值是：2
-            Console.WriteLine(task.Status);//使用task.Status查看当前的Task的状态：当前的状态：RanToComplation
-            Console.WriteLine("SomeDoAfterTask");
-            Console.ReadKey();
-        }
-
         private static void FirstTaskMethod()
         {
             //1.使用Task构造函数创建,必须显式的使用.Start()才能开始执行
@@ -67,5 +46,26 @@ namespace _002Task类的使用
             Console.WriteLine($"Task.Run()的返回值result是个啥?是{task}");
             Console.ReadKey();
         }
+        private static void FirstTaskMethodWithReturn()
+        {
+            #region 说明
+            //调试的注意查看，运行到 Console.WriteLine(task.Result)的时候，其中Task任务还是在执行Thread.Sleep(1000)
+            //还没有出结果，但是我们希望的异步执行也没有发生，而是一直在等待
+            //是为什么呢？
+            //是因为一胆执行了task.Result，即使task任务还没有完成，整体线程都会被锁死，直到等待task.Result出结果
+            //所以可以这样理解:task.Result可以看作是一个未来
+            #endregion
+
+            Console.WriteLine("SomeDoBeforeTask");
+            Func<int> Do = () => { Thread.Sleep(1000); Console.WriteLine("Task.Run结束"); return 2; };
+            Task<int> task = Task.Run(Do);
+            Console.WriteLine(task.Status);//使用task.Status查看当前的Task的状态：当前的状态：WaitingToRun
+            Console.WriteLine(task.Result);//使用task.Result操作Task任务的返回值：返回值是：2
+            Console.WriteLine(task.Status);//使用task.Status查看当前的Task的状态：当前的状态：RanToComplation
+            Console.WriteLine("SomeDoAfterTask");
+            Console.ReadKey();
+        }
+
+
     }
 }
