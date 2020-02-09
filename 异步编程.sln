@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "003接续工作", "003接�
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "004Parallel类的使用", "004Parallel类的使用\004Parallel类的使用.csproj", "{EFA12BBE-F039-4A99-B0B0-663E8CA3FD61}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "005async和await关键字", "005async和await关键字\005async和await关键字.csproj", "{B113EC38-0C62-4907-89E5-1784831BBE78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "006委托异步编程", "006委托异步编程\006委托异步编程.csproj", "{33A03A21-6B1D-40E5-8828-B92BFD91B2F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{EFA12BBE-F039-4A99-B0B0-663E8CA3FD61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFA12BBE-F039-4A99-B0B0-663E8CA3FD61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFA12BBE-F039-4A99-B0B0-663E8CA3FD61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B113EC38-0C62-4907-89E5-1784831BBE78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B113EC38-0C62-4907-89E5-1784831BBE78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B113EC38-0C62-4907-89E5-1784831BBE78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B113EC38-0C62-4907-89E5-1784831BBE78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33A03A21-6B1D-40E5-8828-B92BFD91B2F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33A03A21-6B1D-40E5-8828-B92BFD91B2F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33A03A21-6B1D-40E5-8828-B92BFD91B2F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33A03A21-6B1D-40E5-8828-B92BFD91B2F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

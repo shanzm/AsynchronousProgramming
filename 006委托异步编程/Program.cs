@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -46,8 +47,7 @@ namespace _006委托异步编程
 
         //BeginInvoke()需要做的全部事情就是缓存调用引用函数后返回的IAsyncResult类型对象，
         //并在准备获取引用函数调用的结果时，把它传给EndInvoke（）
-        //之后使用EndInvoke()操作IAsyncResult对象，获取异步操作的结果。
-
+        //之后使用EndInvoke()操作IAsyncResult对象，获取异步操作的结果，同时释放次线程使用的资源。
         private static void AddAsync()
         {
             Func<int, int, int> operateAdd = (int num1, int num2) =>
@@ -57,7 +57,7 @@ namespace _006委托异步编程
                 return num1 + num2;
             };
             Console.WriteLine($"正在执行主线程，线程ID：{Thread.CurrentThread.ManagedThreadId}:DoSomethingBeforeInvoke");
-            IAsyncResult result = operateAdd.BeginInvoke(1, 2, null, null);//此处后两个参数是两个参数必须是System.AsyncCallback和System.Object类型的对象，暂时按下不表，看下面说明
+            IAsyncResult result = operateAdd.BeginInvoke(1, 2, null, null);//前面的参数是委托调用的方法的参数，此处最后两个参数必须是System.AsyncCallback和System.Object类型的对象，暂时按下不表，看下面说明
             //这里使用IAsyncResult类型对象的IsCompleted属性，用于判断是否完成BeginInvoke()
             //while (!result.IsCompleted)
             //{
@@ -67,7 +67,7 @@ namespace _006委托异步编程
 
             //也可是使用IAsyncResult类型对象的AsyncWaitHandle属性，该属性返回一个WaitOne()方法，可以设置等待的最长时间
             //如果超时则返回flase,在这里就可以继续运行主线程了，如果在等待时间之前次线程中的操作完成了，则在这里运行次线程中的操作。
-            while (!result.AsyncWaitHandle.WaitOne(6000, false))//等到3s,在这里3s的等待中operateAdd()是完不成的，所以还是会先继续主线程操作
+            while (!result.AsyncWaitHandle.WaitOne(3000, true))//等待3s,在这里3s的等待中operateAdd()是完不成的，所以还是会先继续主线程操作
             {
                 Console.WriteLine($"继续执行主线程，线程ID：{Thread.CurrentThread.ManagedThreadId}:……");
             }
@@ -78,8 +78,7 @@ namespace _006委托异步编程
         }
 
 
-        //如果异步调用一个无返回值的方法，仅仅调用BeginInvoke（）就可以了。
-        //在这种情况下，我们不需要缓存IAsyncResult兼容对象，也不需要首先调用EndInvoke（）（因为没有收到返回值）
+        //《C#5.0图解教程》P432：说明：“因为EndInvoke是为开启的线程进行清理，所以必须确保对每一个BeginInvoke都调用EndInvoke。”
         private static void AsyncDelegateWithoutReturn()
         {
             Action del = () =>
@@ -90,11 +89,15 @@ namespace _006委托异步编程
                 };
             };
             Console.WriteLine($"当前执行的线程，线程ID:{Thread.CurrentThread.ManagedThreadId}:DoSomethingBeforeAsync...");
-            del.BeginInvoke(null, null);
+            //del.BeginInvoke(null, null);
+            IAsyncResult result = del.BeginInvoke(null, null);
+
             for (int i = 100; i < 200; i++)
             {
                 Console.WriteLine($"当前执行的线程，线程ID:{Thread.CurrentThread.ManagedThreadId},主线程，当前循环{i}");
             }
+            
+            del.EndInvoke(result);
             Console.ReadKey();
         }
     }
