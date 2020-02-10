@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,8 +17,8 @@ namespace _006委托异步编程
         static void Main(string[] args)
         {
             //AddSync();
-            AddAsync();
-            //AsyncDelegateWithoutReturn();
+            //AddAsync();
+            AddAsyncWithCallBack();
         }
 
         //说明：使用.Invoke()执行委托调用的函数（该函数称之为引用函数），这种方式是同步的(也就是step by step）
@@ -48,6 +49,7 @@ namespace _006委托异步编程
         //BeginInvoke()需要做的全部事情就是缓存调用引用函数后返回的IAsyncResult类型对象，
         //并在准备获取引用函数调用的结果时，把它传给EndInvoke（）
         //之后使用EndInvoke()操作IAsyncResult对象，获取异步操作的结果，同时释放次线程使用的资源。
+        //因为EndInvoke是为开启的线程进行清理，所以必须确保对每一个BeginInvoke都调用EndInvoke。
         private static void AddAsync()
         {
             Func<int, int, int> operateAdd = (int num1, int num2) =>
@@ -78,27 +80,35 @@ namespace _006委托异步编程
         }
 
 
-        //《C#5.0图解教程》P432：说明：“因为EndInvoke是为开启的线程进行清理，所以必须确保对每一个BeginInvoke都调用EndInvoke。”
-        private static void AsyncDelegateWithoutReturn()
+        //使用回调模式，回调函数会在异步方法结束后执行
+        //原始线程中你该干什么就干什么，当异步方法结束后，回调函数会自动去处理
+        private static void AddAsyncWithCallBack()
         {
-            Action del = () =>
-            {
-                for (int i = 0; i < 100; i++)
-                {
-                    Console.WriteLine($"当前执行的线程，线程ID:{Thread.CurrentThread.ManagedThreadId},异步中，当前循环{i}");
-                };
-            };
+            Func<int, int, int> operateAdd = (int num1, int num2) =>
+             {
+                 Thread.Sleep(3000);
+                 return num1 + num2;
+             };
             Console.WriteLine($"当前执行的线程，线程ID:{Thread.CurrentThread.ManagedThreadId}:DoSomethingBeforeAsync...");
-            //del.BeginInvoke(null, null);
-            IAsyncResult result = del.BeginInvoke(null, null);
 
-            for (int i = 100; i < 200; i++)
+            IAsyncResult iar = operateAdd.BeginInvoke(1, 2, addCallBack, null);
+            //异步方法的返回值在回调方法中已经处理，所以其实这里的返回值iar没有使用
+
+            for (int i = 0; i < 6; i++)
             {
-                Console.WriteLine($"当前执行的线程，线程ID:{Thread.CurrentThread.ManagedThreadId},主线程，当前循环{i}");
+                Thread.Sleep(1000);
+                Console.WriteLine($"当前执行的线程，线程ID:{Thread.CurrentThread.ManagedThreadId}:...");
             }
-            
-            del.EndInvoke(result);
+
             Console.ReadKey();
+        }
+
+        //用作回调函数，注意返回类型必须为void ,参数必须为IAsyncResult类型，
+        static void addCallBack(IAsyncResult iar)
+        {
+            AsyncResult ar = (AsyncResult)iar;//注意BeginInvoke(）返回的IAsyncResult接口引用，其中内部对象是AsyncResult类型对象
+            int result = ((Func<int, int, int>)ar.AsyncDelegate).EndInvoke(iar);//获取调用BeginInvoke 的异步委托委托（这里就是operateAdd），并执行EndInvoke()
+            Console.WriteLine($"当前执行的线程，线程ID:{Thread.CurrentThread.ManagedThreadId}:异步操作的结果{result}");
         }
     }
 }
