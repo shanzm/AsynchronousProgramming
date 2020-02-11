@@ -61,7 +61,7 @@ namespace _006委托异步编程
                 return num1 + num2;
             };
             Console.WriteLine($"正在执行主线程，线程ID：{Thread.CurrentThread.ManagedThreadId}:DoSomethingBeforeInvoke");
-            IAsyncResult result = operateAdd.BeginInvoke(1, 2,null,null);//前面的参数是委托调用的方法的参数，此处最后两个参数必须是System.AsyncCallback和System.Object类型的对象，暂时按下不表，看下面说明
+            IAsyncResult result = operateAdd.BeginInvoke(1, 2, null, null);//前面的参数是委托调用的方法的参数，此处最后两个参数必须是System.AsyncCallback和System.Object类型的对象，暂时按下不表，看下面说明
             //这里使用IAsyncResult类型对象的IsCompleted属性，用于判断是否完成BeginInvoke()
             //while (!result.IsCompleted)
             //{
@@ -134,8 +134,13 @@ namespace _006委托异步编程
 
             AsyncCallback addCallBack = (IAsyncResult ia) =>
             {
-                AsyncResult ar = (AsyncResult)ia;
-                int result = ((Func<int, int, int>)ar.AsyncDelegate).EndInvoke(ia);
+                //AsyncResult ar = (AsyncResult)ia;
+                //int result = ((Func<int, int, int>)ar.AsyncDelegate).EndInvoke(ia);
+                //改用下面写法，增强健壮性
+                AsyncResult ar = ia as AsyncResult;
+                Func<int,int,int> del=ar.AsyncDelegate as Func<int, int, int>;
+                int result = del.EndInvoke(ia);
+
                 Console.WriteLine($"当前执行的新线程，线程ID:{Thread.CurrentThread.ManagedThreadId},异步操作的结果:{result}");
                 string state = (string)ia.AsyncState;//使用IAsyncResult对象的AsyncState属性获取BeginInvoke的最后一个参数
                 Console.WriteLine($"当前执行的新线程，线程ID:{Thread.CurrentThread.ManagedThreadId},BeginInvoke的最后一个参数:{state}");//state这里是“shanzm”
