@@ -84,6 +84,7 @@ namespace _006委托异步编程
 
         //说明：使用回调模式，回调方法会在异步委托调用的方法结束后执行
         //原始线程中你该干什么就干什么，当异步方法结束后，回调函数会自动去处理
+        //注意回调方法是运行在次线程中的
         private static void AddAsyncWithCallBack()
         {
             Func<int, int, int> operateAdd = (int num1, int num2) =>
@@ -119,7 +120,7 @@ namespace _006委托异步编程
         }
 
 
-        //说明:使用BeginInvoke()的最后一个参数，传入回调方法
+        //说明:使用BeginInvoke()的最后一个参数，该参数用于从主线程中传递一个数据到次线程中的回调方法中
         //注意这个参数是Object类型，所以可以传入任何类型的数据，
         //在回调方法中使用IAsyncResult对象的AsyncState属性获取，注意获取到的是object类型的数据，需要强转为真实类型
         private static void AddAsyncWithCallBack2()
