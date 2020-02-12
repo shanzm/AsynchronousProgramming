@@ -18,11 +18,11 @@ namespace _003接续工作
     {
         static void Main(string[] args)
         {
-            //ContinueWith();
+            ContinueWith();
 
             //Awaiter();
 
-            TaskDelay1();
+            //TaskDelay1();
 
             //TaskDelay2();
         }
@@ -36,8 +36,8 @@ namespace _003接续工作
         {
             Console.WriteLine("task执行前...");
             Task<int> task1 = Task.Run(() => Enumerable.Range(1, 5000).Count(n => (n % 3) == 0));
-            Task task2 = task1.ContinueWith(t => Console.WriteLine($"当你看到这句话则task1结束了，1-5000中能被3整除的个数{task1.Result}"));
-            Task task3 = task2.ContinueWith(t => Console.WriteLine($"当你看到这句话则task2也结束了"));
+            Task task2 = task1.ContinueWith(t => Console.WriteLine($"当你看到这句话则task2结束了，1-5000中能被3整除的个数{t.Result}"));//这里的t就是task1
+            Task task3 = task2.ContinueWith(t => Console.WriteLine($"当你看到这句话则task3也结束了"));
             Console.WriteLine($"task1及其接续工作正在执行中," + "\t\n" + "我们现在正在执行其他的后续代码");
             Console.ReadKey();
         }

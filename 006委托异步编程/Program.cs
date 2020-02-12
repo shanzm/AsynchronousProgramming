@@ -138,7 +138,7 @@ namespace _006委托异步编程
                 //int result = ((Func<int, int, int>)ar.AsyncDelegate).EndInvoke(ia);
                 //改用下面写法，增强健壮性
                 AsyncResult ar = ia as AsyncResult;
-                Func<int,int,int> del=ar.AsyncDelegate as Func<int, int, int>;
+                Func<int, int, int> del = ar.AsyncDelegate as Func<int, int, int>;
                 int result = del.EndInvoke(ia);
 
                 Console.WriteLine($"当前执行的新线程，线程ID:{Thread.CurrentThread.ManagedThreadId},异步操作的结果:{result}");

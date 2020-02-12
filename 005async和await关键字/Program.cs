@@ -43,13 +43,8 @@ namespace _005async和await关键字
 
         private static async Task<int> SumAsync(int num1, int num2)
         {
-            int sum = await Task.Run(() => GetSum(num1, num2));
-            //注意因为Run()的参数是无参委托，所以单独定义GetSum()
+            int sum = await Task.Run(() =>num1+num2);
             return sum;
-        }
-        private static int GetSum(int i, int j)
-        {
-            return i + j;
         }
     }
 }
