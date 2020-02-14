@@ -10,9 +10,9 @@ namespace _004Parallel类的使用
     {
         static void Main(string[] args)
         {
-            ParallelFor();
+            //ParallelFor();
             //ParallelForEach();
-            //ParallelInvoke();
+            ParallelInvoke();
         }
         //使用Parallel.For()对数组中的每一个元素进行并行操作
         //正常的遍历数组是按照索引的顺序执行的
@@ -47,17 +47,17 @@ namespace _004Parallel类的使用
         {
             Action action1=() =>
             {
-                for (int i = 0; i < 20; i++)
+                for (int i = 0; i < 5; i++)
                 {
-                    Console.WriteLine(i+"action1操作");
+                    Console.WriteLine($"action-1-操作");
                 }
             };
 
             Action action2 = () =>
             {
-                for (int i = 100; i < 120; i++)
+                for (int i = 0; i < 5; i++)
                 {
-                    Console.WriteLine(i+"action2操作");
+                    Console.WriteLine($"action-2-操作");
                 }
             };
             //Parallel.Invoke(action1, action2);
