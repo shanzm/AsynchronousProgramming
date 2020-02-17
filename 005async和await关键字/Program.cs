@@ -32,11 +32,8 @@ namespace _005async和await关键字
         //并为期添加一个延续工作，接收并处理异步操作的返回值Task<T>
         private static void FirstAsyncWithTReturn()
         {
-            Console.WriteLine($"-1-.正在执行主线程，线程ID：{Thread.CurrentThread.ManagedThreadId}");
             Task<int> result = SumAsync(1, 2);
-            Console.WriteLine($"-3-.正在执行主线程，线程ID：{Thread.CurrentThread.ManagedThreadId}");
-            result.ContinueWith(t => Console.WriteLine($"-6-.正在执行的线程，线程ID：{Thread.CurrentThread.ManagedThreadId}"+"      异步操作结果为：" + result.Result));
-            Console.WriteLine($"-4-.正在执行主线程，线程ID：{Thread.CurrentThread.ManagedThreadId}");
+            result.ContinueWith(t => Console.WriteLine($"异步操作结果为：{result.Result}"));
             for (int i = 0; i < 10; i++)
             {
                 Thread.Sleep(1000);
@@ -82,12 +79,7 @@ namespace _005async和await关键字
         //await表达式的后面的操作完成后，则把await表达式的返回结果传递到调用方法中，执行在调用方法中的异步方法延续任务
         private static async Task<int> SumAsync(int num1, int num2)
         {
-            Console.WriteLine($"-2-.正在执行的线程，线程ID：{Thread.CurrentThread.ManagedThreadId}");
-           
             int sum = await Task.Run(() => { Thread.Sleep(3000); return num1 + num2; });
-          
-            Console.WriteLine($"-5-.正在执行的线程，线程ID：{Thread.CurrentThread.ManagedThreadId}");
-          
             return sum;
         }
     }
