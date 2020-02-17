@@ -18,7 +18,7 @@ namespace _0030取消一个异步操作
     {
         static void Main(string[] args)
         {
-            CancellTask();
+           //CancellTask();
 
             CancellTask2();
         }
@@ -65,7 +65,7 @@ namespace _0030取消一个异步操作
                 Console.WriteLine("主线程中的循环次数：" + i);
             }
             cts.Cancel();//注意在主线程中的循环结束后（5s左右），运行到此处，
-                         //则此时CancellationTokenSource对象中的所有的token.IsCancellationRequested==true
+                         //则此时CancellationTokenSource对象中的token.IsCancellationRequested==true
                          //则在异步操作DoAsync()中根据此判断，则取消异步操作
             Console.ReadKey();
         }
@@ -85,7 +85,7 @@ namespace _0030取消一个异步操作
                     Thread.Sleep(1000);
                     Console.WriteLine("次线程中的循环次数：" + i);
                 }
-            });
+            }/*,ct*/);//这里的取消令牌ct，可以像示例1中那样作为Task.Run()的第二个参数,但是不写也没问题！
         }
     }
 }
