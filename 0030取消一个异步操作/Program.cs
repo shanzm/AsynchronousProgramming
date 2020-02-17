@@ -28,7 +28,7 @@ namespace _0030取消一个异步操作
         private static void CancellTask()
         {
             CancellationTokenSource cts = new CancellationTokenSource();//生成一个CancellationTokenSource对象，该对象可以创建CancellationToken
-            CancellationToken ct = cts.Token;//获取一个令牌（token)
+            CancellationToken ct = cts.Token;//获取一个令牌（token)可以将令牌传递给多个任务，这样可以同时取消多个任务。
             Task.Run(() =>
             {
                 for (int i = 0; i < 20; i++)

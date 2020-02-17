@@ -20,7 +20,6 @@ namespace _002Task类的使用
         {
             //测试Task.Run()
             FirstTaskMethod();
-
             //测试task.Result
             //FirstTaskMethodWithReturn();
         }
