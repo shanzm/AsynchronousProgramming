@@ -17,6 +17,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "005async和await关键字",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "006委托异步编程", "006委托异步编程\006委托异步编程.csproj", "{33A03A21-6B1D-40E5-8828-B92BFD91B2F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "0060FileStreamBeginRead", "0060FileStreamBeginRead\0060FileStreamBeginRead.csproj", "{F97F4333-A8EC-44ED-A303-E5336B02BE92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "004并行Linq查询", "004并行Linq查询\004并行Linq查询.csproj", "{D0D62534-C5C4-4579-AB51-E7FA98F47201}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "0030取消一个异步操作", "0030取消一个异步操作\0030取消一个异步操作.csproj", "{A9CC883F-EA5E-4251-8D7D-12AA1C682739}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "0040线程安全集合", "0040线程安全集合\0040线程安全集合.csproj", "{FAB1786D-2B39-4600-884E-E864A8B1A716}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "0050async和await关键字-控制流", "0050async和await关键字-控制流\0050async和await关键字-控制流.csproj", "{02821B97-16BA-4ABD-8296-488F76D67B04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "007异步操作中异常处理", "007异步操作中异常处理\007异步操作中异常处理.csproj", "{F6D59612-2A57-4D97-B052-5175011ECB53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +63,30 @@ Global
 		{33A03A21-6B1D-40E5-8828-B92BFD91B2F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33A03A21-6B1D-40E5-8828-B92BFD91B2F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33A03A21-6B1D-40E5-8828-B92BFD91B2F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F97F4333-A8EC-44ED-A303-E5336B02BE92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F97F4333-A8EC-44ED-A303-E5336B02BE92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F97F4333-A8EC-44ED-A303-E5336B02BE92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F97F4333-A8EC-44ED-A303-E5336B02BE92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0D62534-C5C4-4579-AB51-E7FA98F47201}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0D62534-C5C4-4579-AB51-E7FA98F47201}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0D62534-C5C4-4579-AB51-E7FA98F47201}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0D62534-C5C4-4579-AB51-E7FA98F47201}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9CC883F-EA5E-4251-8D7D-12AA1C682739}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9CC883F-EA5E-4251-8D7D-12AA1C682739}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9CC883F-EA5E-4251-8D7D-12AA1C682739}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9CC883F-EA5E-4251-8D7D-12AA1C682739}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAB1786D-2B39-4600-884E-E864A8B1A716}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAB1786D-2B39-4600-884E-E864A8B1A716}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAB1786D-2B39-4600-884E-E864A8B1A716}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAB1786D-2B39-4600-884E-E864A8B1A716}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02821B97-16BA-4ABD-8296-488F76D67B04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02821B97-16BA-4ABD-8296-488F76D67B04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02821B97-16BA-4ABD-8296-488F76D67B04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02821B97-16BA-4ABD-8296-488F76D67B04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6D59612-2A57-4D97-B052-5175011ECB53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6D59612-2A57-4D97-B052-5175011ECB53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6D59612-2A57-4D97-B052-5175011ECB53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6D59612-2A57-4D97-B052-5175011ECB53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
