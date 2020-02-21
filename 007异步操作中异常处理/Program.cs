@@ -12,7 +12,9 @@ namespace _007异步操作中异常处理
         static void Main(string[] args)
         {
             //NewMethod1();
-            NewMethod2();
+            //NewMethod2();
+            Task task = NewMethod3();
+            Console.WriteLine(task.IsFaulted);//注意IsFaulted为false，因为抛出的异常被捕获
             Console.ReadKey();
         }
 
@@ -52,11 +54,26 @@ namespace _007异步操作中异常处理
             }
             Console.ReadKey();
         }
+
         private static async Task<int> ThrowEx(int ms, string message)
         {
             //await Task.Delay(ms).ContinueWith(t => { Console.WriteLine("hello world"); return 2; });
             await Task.Run(() => { Thread.Sleep(2000); Console.WriteLine("hello world"); return 2; });
             throw new Exception(message);
+        }
+
+        //演示3：将try catch语句写在异步方法中
+        private static async Task NewMethod3()
+        {
+            try
+            {
+                await Task.Run(() => { Thread.Sleep(2000); Console.WriteLine("hello world"); });
+                throw new Exception("这是异常信息");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
