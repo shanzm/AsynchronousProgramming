@@ -12,9 +12,14 @@ namespace _007异步操作中异常处理
         static void Main(string[] args)
         {
             //NewMethod1();
+
             //NewMethod2();
-            Task task = NewMethod3();
-            Console.WriteLine(task.IsFaulted);//注意IsFaulted为false，因为抛出的异常被捕获
+
+            //Task task = NewMethod3();
+            //Console.WriteLine(task.IsFaulted);//注意IsFaulted为false，因为抛出的异常被捕获
+
+            NewMethod4();
+
             Console.ReadKey();
         }
 
@@ -30,7 +35,7 @@ namespace _007异步操作中异常处理
         {
             try
             {
-                ThrowEx(2000, "异常信息");
+                ThrowEx("异常信息");
             }
             catch (Exception ex)
             {
@@ -45,20 +50,21 @@ namespace _007异步操作中异常处理
         {
             try
             {
-                await ThrowEx(2000, "这是异常信息");
-                //Console.WriteLine(t.IsFaulted);
+                await ThrowEx("这是异常信息");
+                //Console.WriteLine("111111111111111111111111111");
+                //undone:为什么这一句没有运行
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"捕获到异常：{ex.Message}");
             }
             Console.ReadKey();
         }
 
-        private static async Task<int> ThrowEx(int ms, string message)
+        private static async Task ThrowEx(string message, int ms = 10000)
         {
-            //await Task.Delay(ms).ContinueWith(t => { Console.WriteLine("hello world"); return 2; });
-            await Task.Run(() => { Thread.Sleep(2000); Console.WriteLine("hello world"); return 2; });
+            //await Task.Delay(ms).ContinueWith(t => { Console.WriteLine("hello world");  });
+            await Task.Run(() => { Thread.Sleep(ms); Console.WriteLine($"当前的线程Id：{Thread.CurrentThread.ManagedThreadId,2}:hello world");  });
             throw new Exception(message);
         }
 
@@ -73,6 +79,36 @@ namespace _007异步操作中异常处理
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+
+        //演示4：多个异步方法的异常处理
+        //使用WhenAll或WhenAny异步的等待异步结果，
+        //其中WhenAll就是WaitAll的异步版本，WhenAny就是WaitAny的异步版本
+        private static async Task NewMethod4()
+        {
+            Task taskResult = null;
+            try
+            {
+                Console.WriteLine($"当前的线程Id：{Thread.CurrentThread.ManagedThreadId,2}:do something before task");
+                Task t1 = ThrowEx($"这是第一个抛出的异常信息:异常所在线程ID：{Thread.CurrentThread.ManagedThreadId,2}", 3000);
+                Task t2 = ThrowEx($"这是第二个抛出的异常信息:异常所在线程ID：{Thread.CurrentThread.ManagedThreadId,2}", 5000);
+                await (taskResult = Task.WhenAll(t1, t2));
+                for (int i = 0; i < 20; i++)
+                {
+                    Thread.Sleep(1000);
+                    Console.WriteLine($"当前的线程Id：{Thread.CurrentThread.ManagedThreadId,2}:当前循环次数{i}");
+                }
+
+            }
+            catch (Exception)
+            {
+                foreach (var item in taskResult.Exception.InnerExceptions)
+                //注意这个taskResult中的Exception是AggregateException类型的异常
+                //该异常中不仅有InnerExcption属性还有InnerExcptions属性，InnerExceptions属性则包含所有异常
+                {
+                    Console.WriteLine($"当前的线程Id：{Thread.CurrentThread.ManagedThreadId,2}:{item.Message}");
+                }
             }
         }
     }
