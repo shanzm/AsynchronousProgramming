@@ -20,7 +20,11 @@ namespace _007调用方法中同步和异步等待任务
             //Task.WhenAny(t1, t2);//异步等待t1和t2中任一个完成（调试的时候你就会发现两个任务分别在新线程中执行，主线程继续执行后续的循环代码，当t1完成后，继续后续的循环代码）
 
             //Task.WhenAll(t1, t2).ContinueWith(t => Console.WriteLine($"当前线程ID：{Thread.CurrentThread.ManagedThreadId,2 }:延续任务，两个异步操作返回值是一个int[],其中元素分别是{t.Result[0]}、{t.Result[1]}"));//注意返回值
-            Task.WhenAny(t1, t2).ContinueWith(t => Console.WriteLine($"当前线程ID：{Thread.CurrentThread.ManagedThreadId,2 }:延续任务，第一个完成的异步操作返回值是{t.Result.Result}"));//注意返回值
+            //Task.WhenAny(t1, t2).ContinueWith(t => Console.WriteLine($"当前线程ID：{Thread.CurrentThread.ManagedThreadId,2 }:延续任务，第一个完成的异步操作返回值是{t.Result.Result}"));//注意返回值
+
+            //异步等待后的延续任务，也可以这样写：
+            Task.Factory.ContinueWhenAll(new Task[] { t1, t2 }, (t) => Console.WriteLine($"当前线程ID：{Thread.CurrentThread.ManagedThreadId,2 }:延续任务，两个异步操作返回值是一个int[],其中元素分别是{t1.Result}、{t2.Result}"));
+            //undone：若是t1和t2的返回值类型不同，比如是Task<int>和Task<string>，则Task.WhenAll(t1,t2)怎么在接续任务中输出1和t2的返回值
 
 
             for (int i = 0; i < 8; i++)
@@ -37,5 +41,6 @@ namespace _007调用方法中同步和异步等待任务
             int result = await Task.Run(() => { Thread.Sleep(num); Console.WriteLine($"当前线程ID：{Thread.CurrentThread.ManagedThreadId,2}:异步操作之等待：{num}s"); return num; });
             return result;
         }
+
     }
 }
