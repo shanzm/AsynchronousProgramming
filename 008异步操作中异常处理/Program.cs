@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace _007异步操作中异常处理
+namespace _008异步操作中异常处理
 {
     class Program
     {
@@ -93,7 +93,13 @@ namespace _007异步操作中异常处理
                 Console.WriteLine($"当前的线程Id：{Thread.CurrentThread.ManagedThreadId,2}:do something before task");
                 Task t1 = ThrowEx($"这是第一个抛出的异常信息:异常所在线程ID：{Thread.CurrentThread.ManagedThreadId,2}", 3000);
                 Task t2 = ThrowEx($"这是第二个抛出的异常信息:异常所在线程ID：{Thread.CurrentThread.ManagedThreadId,2}", 5000);
-                await (taskResult = Task.WhenAll(t1, t2));
+                await (taskResult = Task.WhenAll(t1, t2).ContinueWith(t =>
+                {
+                    for (int i = 0; i < 10; i++)
+                    {
+                        Thread.Sleep(1000);
+                        Console.WriteLine($"当前的线程Id：{Thread.CurrentThread.ManagedThreadId,2}:当前循环次数{i}");
+                    } }));
                 for (int i = 0; i < 20; i++)
                 {
                     Thread.Sleep(1000);
