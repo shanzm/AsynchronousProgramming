@@ -64,11 +64,11 @@ namespace _008异步操作中异常处理
         private static async Task ThrowEx(string message, int ms = 10000)
         {
             //await Task.Delay(ms).ContinueWith(t => { Console.WriteLine("hello world");  });
-            await Task.Run(() => { Thread.Sleep(ms); Console.WriteLine($"当前的线程Id：{Thread.CurrentThread.ManagedThreadId,2}:hello world");  });
+            await Task.Run(() => { Thread.Sleep(ms); Console.WriteLine($"当前的线程Id：{Thread.CurrentThread.ManagedThreadId,2}:hello world"); });
             throw new Exception(message);
         }
 
-        //演示3：将try catch语句写在异步方法中
+        //演示3：将异步方法语句写在try catch中
         private static async Task NewMethod3()
         {
             try
@@ -87,19 +87,20 @@ namespace _008异步操作中异常处理
         //其中WhenAll就是WaitAll的异步版本，WhenAny就是WaitAny的异步版本
         private static async Task NewMethod4()
         {
-            Task taskResult = null;
+            Task taskResult = null;//注意因为在catch语句中需要使用这个WhenAll的返回值，所以定义在try语句之外。
             try
             {
                 Console.WriteLine($"当前的线程Id：{Thread.CurrentThread.ManagedThreadId,2}:do something before task");
                 Task t1 = ThrowEx($"这是第一个抛出的异常信息:异常所在线程ID：{Thread.CurrentThread.ManagedThreadId,2}", 3000);
                 Task t2 = ThrowEx($"这是第二个抛出的异常信息:异常所在线程ID：{Thread.CurrentThread.ManagedThreadId,2}", 5000);
-                await (taskResult = Task.WhenAll(t1, t2).ContinueWith(t =>
-                {
-                    for (int i = 0; i < 10; i++)
-                    {
-                        Thread.Sleep(1000);
-                        Console.WriteLine($"当前的线程Id：{Thread.CurrentThread.ManagedThreadId,2}:当前循环次数{i}");
-                    } }));
+                //await (taskResult = Task.WhenAll(t1, t2).ContinueWith(t =>
+                //{
+                //    for (int i = 0; i < 10; i++)
+                //    {
+                //        Thread.Sleep(1000);
+                //        Console.WriteLine($"当前的线程Id：{Thread.CurrentThread.ManagedThreadId,2}:当前循环次数{i}");
+                //    } }));
+                await (taskResult = Task.WhenAll(t1, t2));
                 for (int i = 0; i < 20; i++)
                 {
                     Thread.Sleep(1000);
@@ -116,6 +117,7 @@ namespace _008异步操作中异常处理
                     Console.WriteLine($"当前的线程Id：{Thread.CurrentThread.ManagedThreadId,2}:{item.Message}");
                 }
             }
+
         }
     }
 }

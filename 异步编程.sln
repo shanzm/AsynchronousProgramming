@@ -27,7 +27,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "0040线程安全集合", "0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "0050async和await关键字-控制流", "0050async和await关键字-控制流\0050async和await关键字-控制流.csproj", "{02821B97-16BA-4ABD-8296-488F76D67B04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "007异步操作中异常处理", "007异步操作中异常处理\007异步操作中异常处理.csproj", "{F6D59612-2A57-4D97-B052-5175011ECB53}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "008异步操作中异常处理", "008异步操作中异常处理\008异步操作中异常处理.csproj", "{F6D59612-2A57-4D97-B052-5175011ECB53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "007调用方法中同步和异步等待任务", "007调用方法中同步和异步等待任务\007调用方法中同步和异步等待任务.csproj", "{4F53F515-ADF1-40F6-968B-23C35CA70E87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +89,10 @@ Global
 		{F6D59612-2A57-4D97-B052-5175011ECB53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6D59612-2A57-4D97-B052-5175011ECB53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6D59612-2A57-4D97-B052-5175011ECB53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F53F515-ADF1-40F6-968B-23C35CA70E87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F53F515-ADF1-40F6-968B-23C35CA70E87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F53F515-ADF1-40F6-968B-23C35CA70E87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F53F515-ADF1-40F6-968B-23C35CA70E87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
