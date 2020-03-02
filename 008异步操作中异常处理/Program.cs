@@ -13,12 +13,12 @@ namespace _008异步操作中异常处理
         {
             //NewMethod1();
 
-            //NewMethod2();
+            NewMethod2();
 
             //Task task = NewMethod3();
             //Console.WriteLine(task.IsFaulted);//注意IsFaulted为false，因为抛出的异常被捕获
 
-            NewMethod4();
+            //NewMethod4();
 
             Console.ReadKey();
         }
@@ -50,9 +50,17 @@ namespace _008异步操作中异常处理
         {
             try
             {
+                //Task t = ThrowEx("这是异常信息");
+                //t.Wait();//通过阻塞线程，我们也是可以捕获异常，但是你会发现并不是简单的我们抛出的异常
+                //他捕获的异常的信息是“有一个或多个异常”
+
                 await ThrowEx("这是异常信息");
+
                 //Console.WriteLine("111111111111111111111111111");
                 //undone:为什么这一句没有运行
+                //看上去好像"await ThrowEx("这是异常信息");"这一句并不是异步操作，因为在等待，而不是执行主线程的后续代码
+                //其实你要想一想，我们在调用异步方法的时候是不需要使用await关键字的，但是这里为捕获异常使用了await关键字
+                //其实效果上和使用
             }
             catch (Exception ex)
             {
@@ -61,7 +69,7 @@ namespace _008异步操作中异常处理
             Console.ReadKey();
         }
 
-        private static async Task ThrowEx(string message, int ms = 10000)
+        private static async Task ThrowEx(string message, int ms = 3000)
         {
             //await Task.Delay(ms).ContinueWith(t => { Console.WriteLine("hello world");  });
             await Task.Run(() => { Thread.Sleep(ms); Console.WriteLine($"当前的线程Id：{Thread.CurrentThread.ManagedThreadId,2}:hello world"); });
