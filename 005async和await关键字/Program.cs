@@ -23,9 +23,15 @@ namespace _005async和await关键字
     {
         static void Main(string[] args)
         {
-            FirstAsyncWithTReturn();
+            //FirstAsyncWithTReturn();
 
             //FirstAsyncWithTaskReturn();
+
+            //MultipleMethod();
+
+            MultipleMethod2();
+
+            Console.ReadKey();
         }
 
         //1.调用异步方法SumAsync
@@ -57,17 +63,38 @@ namespace _005async和await关键字
             Console.ReadKey();
         }
 
-        //3.调用异步方法SumAsync
-        //不需要对返回结果操作，则可以接收Task类型的返回值，用于查看异步操作的状态等
-        private static void FireAndForget()
+        //3.同时调用多个异步方法,且第二个异步方法不依赖第一个异步方法的结果
+        //这里没有使用await等待，而是使用了延续任务，从而也避免了async的传染性，所以这个MultipleMethod()方法没有使用async修饰
+        private static void MultipleMethod()
         {
-            Task result = SumAsync(1, 2);//调用异步方法，但是不需要对其返回值进行操作，所以定义接收类型为Task
-            result.ContinueWith(t => Console.WriteLine(result.Status));//查看异步操作的status
+            Task<int> result1 = SumAsync(1, 2);
+            Task<int> result2 = SumAsync(1, 3);
+            result2.ContinueWith(t => Console.WriteLine($"result2:{result2.Result}"));
             for (int i = 0; i < 10; i++)
             {
                 Thread.Sleep(1000);
                 Console.WriteLine(i);
             }
+            Console.ReadKey();
+        }
+
+
+
+        //4.同时调用多个异步方法,且第二个异步方法依赖第一个异步方法的结果
+        //若是此时和3中的调用方法一样则，在出现result1.Result的地方会出现线程阻塞
+        //所以使用await关键字
+        private static async void MultipleMethod2()
+        {
+            int result1 = await SumAsync(1, 2);//这里使用了await 关键字则，调用方法MultipleMethod2()必须使用async修饰（即async传染性）
+            int result2 = await SumAsync(1, result1);
+
+            Console.WriteLine(result2);
+            for (int i = 0; i < 10; i++)
+            {
+                Thread.Sleep(1000);
+                Console.WriteLine(i);
+            }
+
             Console.ReadKey();
         }
 
