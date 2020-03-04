@@ -13,12 +13,12 @@ namespace _008异步操作中异常处理
         {
             //NewMethod1();
 
-            NewMethod2();
+            // NewMethod2();
 
             //Task task = NewMethod3();
             //Console.WriteLine(task.IsFaulted);//注意IsFaulted为false，因为抛出的异常被捕获
 
-            //NewMethod4();
+            NewMethod4();
 
             Console.ReadKey();
         }
@@ -116,9 +116,9 @@ namespace _008异步操作中异常处理
                 }
 
             }
-            catch (Exception)
+            catch (Exception)//注意这里捕获的异常只是WhenAll()等待的异步任务中第一抛出的异常
             {
-                foreach (var item in taskResult.Exception.InnerExceptions)
+                foreach (var item in taskResult.Exception.InnerExceptions)//通过WhenAll()的返回对象的Exception属性来查阅所有的异常信息
                 //注意这个taskResult中的Exception是AggregateException类型的异常
                 //该异常中不仅有InnerExcption属性还有InnerExcptions属性，InnerExceptions属性则包含所有异常
                 {
