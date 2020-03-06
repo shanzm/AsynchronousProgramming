@@ -101,14 +101,9 @@ namespace _008异步操作中异常处理
                 Console.WriteLine($"当前的线程Id：{Thread.CurrentThread.ManagedThreadId,2}:do something before task");
                 Task t1 = ThrowEx($"这是第一个抛出的异常信息:异常所在线程ID：{Thread.CurrentThread.ManagedThreadId,2}", 3000);
                 Task t2 = ThrowEx($"这是第二个抛出的异常信息:异常所在线程ID：{Thread.CurrentThread.ManagedThreadId,2}", 5000);
-                //await (taskResult = Task.WhenAll(t1, t2).ContinueWith(t =>
-                //{
-                //    for (int i = 0; i < 10; i++)
-                //    {
-                //        Thread.Sleep(1000);
-                //        Console.WriteLine($"当前的线程Id：{Thread.CurrentThread.ManagedThreadId,2}:当前循环次数{i}");
-                //    } }));
+
                 await (taskResult = Task.WhenAll(t1, t2));
+                //await Task.WhenAll(t1, t2);//注意这样抛出的异常则不是AggregateException类型的异常
                 for (int i = 0; i < 20; i++)
                 {
                     Thread.Sleep(1000);
@@ -116,7 +111,7 @@ namespace _008异步操作中异常处理
                 }
 
             }
-            catch (Exception)//注意这里捕获的异常只是WhenAll()等待的异步任务中第一抛出的异常
+            catch (Exception )//注意这里捕获的异常只是WhenAll()等待的异步任务中第一抛出的异常
             {
                 foreach (var item in taskResult.Exception.InnerExceptions)//通过WhenAll()的返回对象的Exception属性来查阅所有的异常信息
                 //注意这个taskResult中的Exception是AggregateException类型的异常

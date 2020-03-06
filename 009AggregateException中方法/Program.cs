@@ -12,7 +12,8 @@ namespace _009AggregateException中方法
         static void Main(string[] args)
         {
             //TestAsync1();
-            TestAsync2();
+            //TestAsync2();
+            TestAsync3();
             Console.ReadKey();
         }
 
@@ -36,9 +37,7 @@ namespace _009AggregateException中方法
                         throw new TestException("Attached child1 faulted.");
                     }, TaskCreationOptions.AttachedToParent);
                 });
-
                 await task;
-
             }
 
             catch (AggregateException ae)//AggregateException类型异常的错误信息是“发生一个或多个异常”

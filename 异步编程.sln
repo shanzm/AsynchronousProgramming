@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "008异步操作中异常处
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "007调用方法中同步和异步等待任务", "007调用方法中同步和异步等待任务\007调用方法中同步和异步等待任务.csproj", "{4F53F515-ADF1-40F6-968B-23C35CA70E87}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "009AggregateException中方法", "009AggregateException中方法\009AggregateException中方法.csproj", "{FFD470AD-3EEC-4FBF-9CAE-0ED984677BAB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{4F53F515-ADF1-40F6-968B-23C35CA70E87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F53F515-ADF1-40F6-968B-23C35CA70E87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F53F515-ADF1-40F6-968B-23C35CA70E87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFD470AD-3EEC-4FBF-9CAE-0ED984677BAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFD470AD-3EEC-4FBF-9CAE-0ED984677BAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFD470AD-3EEC-4FBF-9CAE-0ED984677BAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFD470AD-3EEC-4FBF-9CAE-0ED984677BAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
