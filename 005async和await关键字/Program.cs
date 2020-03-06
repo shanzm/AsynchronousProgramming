@@ -109,6 +109,18 @@ namespace _005async和await关键字
             int sum = await Task.Run(() => { Thread.Sleep(3000); return num1 + num2; });
             return sum;
         }
+
+        private static Task<int> SumAsync2(int num1, int num2)//该方法非异步方法，只是返回值类型是Task<T>
+        {
+            if (num1 == 0 && num2 == 0)
+            {
+                return Task.FromResult(0);//返回一个Task<int>类型，其Result属性为0
+            }
+            else
+            {
+                return Task.Run(() => num1 + num2);//返回一个Task<int>
+            }
+        }
     }
 
 
