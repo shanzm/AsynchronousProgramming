@@ -5,6 +5,8 @@
 
 同时项目中的代码是我博文中的示例代码，详细说明可以阅读我以下博文：
 
+0. [.NET异步程序设计之概念引入](https://www.cnblogs.com/shanzhiming/p/12292710.html)
+
 1. [.NET异步编程之异步委托](https://www.cnblogs.com/shanzhiming/p/12296283.html)
 
 2. [.NET异步程序设计之任务并行库](https://www.cnblogs.com/shanzhiming/p/12315548.html)
