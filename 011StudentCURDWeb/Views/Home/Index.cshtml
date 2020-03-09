@@ -1,0 +1,25 @@
+﻿@using _011StudentCURDDTO;
+
+@model IEnumerable<StudentDTO>
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div> 
+        <ul>
+            @foreach (var s in Model)
+            {
+                <li>@s.Name @s.Age</li>
+            }
+        </ul>
+    </div>
+    <div><a href="~/Home/AddNew">添加新的学生</a></div>
+    <div><a href="~/Home/Export">下载所有学生信息</a></div>
+</body>
+</html>
