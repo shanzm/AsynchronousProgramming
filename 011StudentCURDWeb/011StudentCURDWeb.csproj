@@ -130,6 +130,10 @@
       <Project>{644c9150-c76d-47b5-b930-92ac5996c385}</Project>
       <Name>011StudentCURDDTO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\011StudentCURDIService\011StudentCURDIService.csproj">
+      <Project>{9115C4B7-DA4F-47BE-BBA9-7B284E01E00F}</Project>
+      <Name>011StudentCURDIService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\011StudentCURDService\011StudentCURDService.csproj">
       <Project>{ae187d6a-a4ac-467a-9c7e-c12e2f0328a6}</Project>
       <Name>011StudentCURDService</Name>
