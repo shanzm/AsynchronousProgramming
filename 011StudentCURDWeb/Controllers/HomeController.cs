@@ -1,4 +1,5 @@
 ﻿using _011StudentCURDDTO;
+using _011StudentCURDIService;
 using _011StudentCURDService;
 using _011StudentCURDWeb.Models;
 using System;
@@ -16,7 +17,7 @@ namespace _011StudentCURDWeb.Controllers
         // GET: Home
         public async Task<ActionResult> Index()
         {
-            StudentService stuService = new StudentService();
+            IStudentService stuService = new StudentService();//这里是"面向接口编程"
             IEnumerable<StudentDTO> students = await stuService.GetAllAsync();
             return View(students);
         }
@@ -30,14 +31,16 @@ namespace _011StudentCURDWeb.Controllers
         [HttpPost]
         public async Task<ActionResult> AddNew(AddNewStudent stu)
         {
-            StudentService stuService = new StudentService();
+            IStudentService stuService = new StudentService();
             long id = await stuService.AddAsync(stu.Name, stu.Age);
             return Redirect("~/Home/Index");
         }
 
+
+        //把数据库中的数据写入到一个txt文件，并弹出下载窗口
         public async Task<ActionResult> Export()
         {
-            StudentService stuService = new StudentService();
+            IStudentService stuService = new StudentService();
             IEnumerable<StudentDTO> students = await stuService.GetAllAsync();
             this.Response.AddHeader("Content-Disposition", "attachment;filename=1.txt");//弹出下载窗口
             MemoryStream ms = new MemoryStream();
