@@ -12,7 +12,10 @@ namespace _004Parallel类的使用
         {
             //ParallelFor();
             //ParallelForEach();
-            ParallelInvoke();
+            //ParallelInvoke();
+            ParallelInvokeWithParam();
+
+            Console.ReadKey();
         }
         //使用Parallel.For()对数组中的每一个元素进行并行操作
         //正常的遍历数组是按照索引的顺序执行的
@@ -37,7 +40,7 @@ namespace _004Parallel类的使用
         private static void ParallelForEach()
         {
             List<int> intList = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-            Parallel.ForEach(intList, n => Console.WriteLine(n+100));
+            Parallel.ForEach(intList, n => Console.WriteLine(n + 100));
             Console.ReadKey();
         }
 
@@ -45,13 +48,13 @@ namespace _004Parallel类的使用
         //参数是一个无返回值的Action委托数组
         private static void ParallelInvoke()
         {
-            Action action1=() =>
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    Console.WriteLine($"action-1-操作");
-                }
-            };
+            Action action1 = () =>
+              {
+                  for (int i = 0; i < 5; i++)
+                  {
+                      Console.WriteLine($"action-1-操作");
+                  }
+              };
 
             Action action2 = () =>
             {
@@ -65,5 +68,55 @@ namespace _004Parallel类的使用
             Parallel.Invoke(actions);
             Console.ReadKey();
         }
+
+
+        //首先我们知道Parallel.Invoke（）只能执行无返回值的委托
+        //若是我们的委托是有参数的委托，该怎么执行呢
+        //这就是线程中传递数据的问题了
+        //这里我们可以改为下面这种写法
+        private static void ParallelInvokeWithParam()
+        {
+            #region 错误写法，无法将委托的参数传入线程
+            Action<int> action1 = (x) =>
+              {
+                  for (int i = 0; i < x; i++)
+                  {
+                      Console.WriteLine($"action-1-操作");
+                  }
+              };
+
+            Action<int> action2 = (x) =>
+            {
+                for (int i = 0; i < x; i++)
+                {
+                    Console.WriteLine($"action-2-操作");
+                }
+            };
+
+            // Parallel.Invoke(action1); //语法错误
+            #endregion
+
+            #region 有效实现方式
+            //将方法单独编写，使用=>格式的匿名函数作为 Parallel.Invoke(）的参数
+            Parallel.Invoke(() => Action1(10), () => Action2(20));
+            #endregion
+        }
+
+        public static void Action1(int x)
+        {
+            for (int i = 0; i < x; i++)
+            {
+                Console.WriteLine($"action-1-操作");
+            }
+        }
+
+        public static void Action2(int x)
+        {
+            for (int i = 0; i < x; i++)
+            {
+                Console.WriteLine($"action-2-操作");
+            }
+        }
+
     }
 }
