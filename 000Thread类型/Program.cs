@@ -23,7 +23,7 @@ namespace _000Thread类型
         {
             Console.WriteLine("这是主线程");
             Thread thread = new Thread(Do);
-            thread.Start();//start并不表示执行该线程，而是表示，此时已经准备好，什么时候可以执行，由CPU执行，我们无法决定
+            thread.Start();//start表示计划执行该线程，并不表示执行该线程，而是表示，此时已经准备好，什么时候可以执行，由CPU执行，我们无法决定
             Console.WriteLine("这是主线程");
          
 
