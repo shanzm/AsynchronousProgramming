@@ -21,7 +21,7 @@ namespace _000Thread类型_给线程传递数据
         static void Main(string[] args)
         {
             //方式1：
-            //ThreadStartWithParam1();
+            ThreadStartWithParam1();
 
             //方式2：
             //ThreadStartWithParam2();
@@ -30,25 +30,23 @@ namespace _000Thread类型_给线程传递数据
             //ThreadStartWithParam3();
 
             //说明：
-            TestLambda();
+            //TestLambda();
 
             Console.ReadKey();
         }
 
-        #region 1. 使用以ParameteriedThreadStart委托类型的为参数的Thread(）构造函数,并使用Thread.Start()来传递参数
+        #region 1. 使用以ParameterizedThreadStart委托类型的为参数的Thread(）构造函数,并使用Thread.Start()来传递参数
         //ParameteriedThreadStart委托，其参数为object类型，且其为无返回值类型的委托
         //注意两点：参数为object类型；无返回值
         //这种方法是最原始的给线程传递参数的方法
-
         static void Do(object obj)
         {
             int n = (int)obj;
             Console.WriteLine($"方法1：新开线程执行方法，其参数是{n}");
         }
-
         static void ThreadStartWithParam1()
         {
-            Thread thread = new Thread(Do);//这里的Do函数就是ParameteriedThreadStart类型的委托
+            Thread thread = new Thread(Do);//这里的Do函数就是ParameterizedThreadStart类型的委托
             int n = 999;
             thread.Start(n);//在Start函数中传递参数
         }
@@ -101,7 +99,7 @@ namespace _000Thread类型_给线程传递数据
             //因为在这个循环中10个线程都是在操作内存中同一个位置上的变量i
             //所以某个循环步骤的中创建的线程在调用Console.WriteLine()打印i的时候，i又被别的线程修改了
 
-           
+
             //针对上述的问题，解决方案：为循环变量创建一个临时变量
             for (int i = 0; i < 10; i++)
             {
@@ -111,6 +109,8 @@ namespace _000Thread类型_给线程传递数据
                 //这里其实就是每次循环都定义了一个变量，也就是10个变量，他们在内存中的地址可不一样
                 //我们每次循环创建的线程都是使用该循环中创建的变量，
                 //不会出现一个线程中正在使用的变量，被另外一个线程修改了的现象了
+
+                //其实，这就是说使用往线程中传递某个变量，一定注意这个变量与此同时有可能会被其他线程修改
             }
         }
         #endregion

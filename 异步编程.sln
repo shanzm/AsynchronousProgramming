@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "000主线程和次线程", "000主线程和次线程\000主线程和次线程.csproj", "{D5AD0BA9-55CB-4759-BA0E-1F67A7D2708A}"
 EndProject
@@ -44,6 +44,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "011StudentCURDWeb", "011StudentCURDWeb\011StudentCURDWeb.csproj", "{7A138B34-2D37-469D-AD96-B02D0DA6579A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "011StudentCURDIService", "011StudentCURDIService\011StudentCURDIService.csproj", "{9115C4B7-DA4F-47BE-BBA9-7B284E01E00F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "000Thread类型", "000Thread类型\000Thread类型.csproj", "{0CBBE934-572D-498A-9337-A43BD8FAC74C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "000Thread类型-给线程传递数据", "000Thread类型-给线程传递数据\000Thread类型-给线程传递数据.csproj", "{50B3724E-6FEF-4F76-8E56-7828E2E98591}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "000Thread类型-捕获异常", "000Thread类型-捕获异常\000Thread类型-捕获异常.csproj", "{AEB53E40-7DBA-4C26-AAE4-E88C71DBD548}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -131,6 +137,18 @@ Global
 		{9115C4B7-DA4F-47BE-BBA9-7B284E01E00F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9115C4B7-DA4F-47BE-BBA9-7B284E01E00F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9115C4B7-DA4F-47BE-BBA9-7B284E01E00F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CBBE934-572D-498A-9337-A43BD8FAC74C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CBBE934-572D-498A-9337-A43BD8FAC74C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CBBE934-572D-498A-9337-A43BD8FAC74C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CBBE934-572D-498A-9337-A43BD8FAC74C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50B3724E-6FEF-4F76-8E56-7828E2E98591}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50B3724E-6FEF-4F76-8E56-7828E2E98591}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50B3724E-6FEF-4F76-8E56-7828E2E98591}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50B3724E-6FEF-4F76-8E56-7828E2E98591}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEB53E40-7DBA-4C26-AAE4-E88C71DBD548}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEB53E40-7DBA-4C26-AAE4-E88C71DBD548}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEB53E40-7DBA-4C26-AAE4-E88C71DBD548}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEB53E40-7DBA-4C26-AAE4-E88C71DBD548}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -140,5 +158,8 @@ Global
 		{644C9150-C76D-47B5-B930-92AC5996C385} = {1AF4F574-9119-4E45-AB35-E50BDC9E1D39}
 		{7A138B34-2D37-469D-AD96-B02D0DA6579A} = {1AF4F574-9119-4E45-AB35-E50BDC9E1D39}
 		{9115C4B7-DA4F-47BE-BBA9-7B284E01E00F} = {1AF4F574-9119-4E45-AB35-E50BDC9E1D39}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {07900AFB-2AA3-44AF-A0D1-597266DF0826}
 	EndGlobalSection
 EndGlobal
