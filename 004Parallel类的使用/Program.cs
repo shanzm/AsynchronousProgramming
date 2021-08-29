@@ -96,7 +96,8 @@ namespace _004Parallel类的使用
             // Parallel.Invoke(action1); //语法错误
             #endregion
 
-            #region 有效实现方式
+            #region 有效实现方式：这里可以参考 000Thread给线程传递数据
+            //这里我们采用最简单的方式：使用Lambda表达式调用带参数函数
             //将方法单独编写，使用=>格式的匿名函数作为 Parallel.Invoke(）的参数
             Parallel.Invoke(() => Action1(10), () => Action2(20));
             #endregion
