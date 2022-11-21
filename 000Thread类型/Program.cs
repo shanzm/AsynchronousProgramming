@@ -10,25 +10,28 @@ namespace _000Thread类型
         //主要用于线程的创建，挂起，停止，销毁线程
         private static void Main(string[] args)
         {
-            //示例1：
-            //StartThread();
-            //示例2
-            //StartThreadWithLambda();
-            //示例3
-            //ThreadState();
-            //示例4
-            GetCurrentThread();
-            //示例5
-            //ThreadSleep();
-            //示例6
-            //JoinThread();
-            //ThreadSuspend();
+            //ThreadStart();//创建一个线程，并使用Start方法
+
+            //ThreadStartWithLambda();//Start方法执行Lambda
+
+            //ThreadState();//ThreadState属性，IsActive属性，Name属性
+
+            //GetCurrentThread();//获取当前运行的线程
+
+            //ThreadSleep();//将当前线程挂起指定的时间
+
+            //ThreadJoin();//在此实例表示的线程终止前，阻止调用线程。
+
+            ThreadJoin2();
+
+            //ThreadSuspend();//挂起线程，继续已挂起的线程
+
             Console.ReadKey();
         }
 
         //示例1——Start()
         //开启一个线程执行一个方法
-        private static void StartThread()
+        private static void ThreadStart()
         {
             Console.WriteLine("这是主线程");
             Thread thread = new Thread(Do);
@@ -49,7 +52,7 @@ namespace _000Thread类型
 
         //示例2：Lambda表达式和Thread类一起使用
         //使用Lambda表达式作为Thread类构造函数的实参
-        private static void StartThreadWithLambda()
+        private static void ThreadStartWithLambda()
         {
             Thread thread = new Thread(() => Console.WriteLine("这是开启一个新线程:执行本函数成功！"));
             thread.Start();
@@ -95,14 +98,14 @@ namespace _000Thread类型
         //等待线程执行结束
         //首先我们要明确线程什么时候结束，一个线程结束的条件是其构造函数传入的委托执行完毕
         //同时：一个线程一旦执行完毕就无法再次重启该线程
-        private static void JoinThread()
+        private static void ThreadJoin()
         {
             //Thread thread = new Thread(() => { Thread.Sleep(2000); Console.WriteLine("waited 2s ,this my thread"); });
             //thread.Start();
             //Console.WriteLine("this main thread");
-            //以上程序打印结果：
-            //this main thread
-            //waited 2s ,this my thread
+            ////以上程序打印结果：
+            ////this main thread
+            ////waited 2s ,this my thread
 
             //若是我们期望等待次线程thread执行完毕再执行主线程，则次线程可以调用Join方法，将次线程加入到当前，将主线程设置为等待状态
             Thread thread2 = new Thread(() => { Thread.Sleep(2000); Console.WriteLine("waited 2s ,this my thread"); });
@@ -114,14 +117,63 @@ namespace _000Thread类型
             //this main thread
         }
 
+        #region 测试Join
+
+        private static Thread thread1, thread2;
+
+        private static void ThreadJoin2()
+        {
+            thread1 = new Thread(ThreadProc);
+            thread1.Name = "Thread1";
+            thread1.Start();
+
+            thread2 = new Thread(ThreadProc);
+            thread2.Name = "Thread2";
+            thread2.Start();
+        }
+
+        private static void ThreadProc()
+        {
+            Console.WriteLine("\nCurrent thread: {0}", Thread.CurrentThread.Name);
+            if (Thread.CurrentThread.Name == "Thread1" && thread2.ThreadState != System.Threading.ThreadState.Unstarted)
+            {
+                thread2.Join();
+            }
+
+            Thread.Sleep(4000);
+            Console.WriteLine("\nCurrent thread: {0}", Thread.CurrentThread.Name);
+            Console.WriteLine("Thread1: {0}", thread1.ThreadState);
+            Console.WriteLine("Thread2: {0}\n", thread2.ThreadState);
+
+            // The example displays output like the following:
+            //       Current thread: Thread1
+            //
+            //       Current thread: Thread2
+            //
+            //       Current thread: Thread2
+            //       Thread1: WaitSleepJoin
+            //       Thread2: Running
+            //
+            //
+            //       Current thread: Thread1
+            //       Thread1: Running
+            //       Thread2: Stopped
+        }
+
+        #endregion
+
         #region 挂起线程
 
         //示例5——Sleep()
         //线程休眠,线程挂起指定的时间
+        //注：Sleep是Thread类的静态方法，在异步编程中，可以使用Sleep方法来等待其他线程完成某项操作
+        //但是，Sleep方法不能准确的知道其他线程所处理时间在什么时间完成，因此Sleep方法仅适用于线程间
+        //不需要精确同步的场合。若是需要精确同步，推荐使用等待句柄，例如：AutoResetEvent类
         private static void ThreadSleep()
         {
             Console.WriteLine($"this is main thread");
             Console.WriteLine(Thread.CurrentThread.ThreadState);//Running
+
             Thread.Sleep(5000);
 
             Console.WriteLine(Thread.CurrentThread.ThreadState);//Running
@@ -144,7 +196,6 @@ namespace _000Thread类型
                 {
                     Thread thread = Thread.CurrentThread;
                     thread.Suspend();
-
                     thread.Resume();
                 }
 
