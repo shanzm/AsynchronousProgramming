@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "000Thread类型-给线程�
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "000Thread类型-捕获异常", "000Thread类型-捕获异常\000Thread类型-捕获异常.csproj", "{AEB53E40-7DBA-4C26-AAE4-E88C71DBD548}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroudWorker", "BackgroudWorker\BackgroudWorker.csproj", "{F589F65F-243A-4E25-8088-9CB8A15227A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -149,6 +151,10 @@ Global
 		{AEB53E40-7DBA-4C26-AAE4-E88C71DBD548}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEB53E40-7DBA-4C26-AAE4-E88C71DBD548}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEB53E40-7DBA-4C26-AAE4-E88C71DBD548}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F589F65F-243A-4E25-8088-9CB8A15227A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F589F65F-243A-4E25-8088-9CB8A15227A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F589F65F-243A-4E25-8088-9CB8A15227A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F589F65F-243A-4E25-8088-9CB8A15227A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

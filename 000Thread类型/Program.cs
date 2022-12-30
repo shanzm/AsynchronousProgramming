@@ -12,7 +12,7 @@ namespace _000Thread类型
         {
             //ThreadStart();//创建一个线程，并使用Start方法
 
-            //ThreadStartWithLambda();//Start方法执行Lambda
+            ThreadStartWithLambda();//Start方法执行Lambda
 
             //ThreadState();//ThreadState属性，IsActive属性，Name属性
 
@@ -22,7 +22,7 @@ namespace _000Thread类型
 
             //ThreadJoin();//在此实例表示的线程终止前，阻止调用线程。
 
-            ThreadJoin2();
+            //ThreadJoin2();
 
             //ThreadSuspend();//挂起线程，继续已挂起的线程
 
@@ -38,45 +38,73 @@ namespace _000Thread类型
             thread.Start();//start表示通知CLR尽快执行本线程，计划执行该线程，并不表示执行该线程，而是表示，此时已经准备好，什么时候可以执行，由CPU执行，我们无法决定
             Console.WriteLine("这是主线程");
 
-            #region 最终的打印结果如下，这也说明了，thread.Start()并不代表线程立即就开启
-
+            //最终的打印结果如下，这也说明了，thread.Start()并不代表线程立即就开启
             // 这是主线程
             // 这是主线程
             // 这是开启一个新线程:执行本函数成功！
-
-            #endregion
         }
 
         //期望开启一个新的线程执行的函数
-        private static void Do() => Console.WriteLine("这是开启一个新线程:执行本函数成功！");
+        private static void Do() => Console.WriteLine("开启一个新线程:执行本函数成功！");
 
         //示例2：Lambda表达式和Thread类一起使用
         //使用Lambda表达式作为Thread类构造函数的实参
         private static void ThreadStartWithLambda()
         {
-            Thread thread = new Thread(() => Console.WriteLine("这是开启一个新线程:执行本函数成功！"));
-            thread.Start();
+            //Thread的构造函数参数的是一个ThreadStart类型的委托对象或ParameterizedThreadStart类型的委托对象
+            //这是最刻板的写法
+            Thread thread1 = new Thread(new ThreadStart(() => Do()));
+            thread1.Start();
+
+            Thread thread2 = new Thread(() => Do());//若是Do函数有参数，此法是最简单的往线程中执行的方法传递方法的写法
+            thread2.Start();
+
+            Thread thread3 = new Thread(Do);
+            thread3.Start();
+
+            //可以使用Lambda表达式直接写功能语句
+            Thread thread4 = new Thread(() => Console.WriteLine("开启一个新线程:执行本函数成功！"));
+            thread4.Start();
         }
 
         //示例3——Name属性，ThreadState属性，IsActive属性
-        //通过Name属性给线程设置友好的名称
+        //通过Name属性给线程设置友好的名称，
+        //Name属性只能设置一次，主要是用于调试使用
+        //ThreadState是枚举类型,有许多元素（包括已经快要弃用的Suspend等）一般主要关注于四种状态：UnStarted,Running,WaitSleepJoin,Stopped
+        //IsActive:线程一旦启动，该线程的IsActive值为true.
         private static void ThreadState()
         {
             Thread thread = new Thread(() => { Console.WriteLine("线程执行中"); });
             thread.Name = "测试线程";//定义线程名称，只能线程的name 属性只能定义一次，定义后就不能修改了
-            Console.WriteLine($"线程当前的状态{ thread.ThreadState}");//获取线程状态
-            Console.WriteLine(thread.IsAlive);
+            Console.WriteLine($"线程当前的状态{ thread.ThreadState}");//线程当前的状态:UnStarted
+            Console.WriteLine(thread.IsAlive);//False
             thread.Start();//执行Start方法
-            Console.WriteLine(thread.IsAlive);
-            Console.WriteLine($"线程当前的状态{ thread.ThreadState}");
+            Console.WriteLine(thread.IsAlive);//True
+            Console.WriteLine($"线程当前的状态{ thread.ThreadState}");//线程当前的状态：Running
             //打印结果：
             //线程当前状态：Unstarted
+            //False
+            //True
             //线程当前状态：Running
             //线程执行中
 
             //注：IsActive:如果此线程已启动并且尚未正常终止或中止，则为 true；否则为 false。
             //注：如果只是想要知道一个线程是否在运行或者是否已经完成了所有的工作的话，可以使用IsAlive。
             //当然更全面的获得线程的详细的信息还是需要通过使用ThreadState来获取。
+        }
+
+        //示例4-IsBackgroud属性
+        //设置 某个线程是否为后台线程。如果此线程为或将成为后台线程，则为 true；否则为 false。
+        //关于前台线程和后台线程：
+        //1. 后台线程无法阻止进程的终止，一旦属于进程的所有前台线程都执行完毕，公共语言进行时将结束该进程。所有剩余的后台线程将被停止
+        //2. 默认情形下，以下线程为前台线程：主线程、通过调用类构造函数创建的Thread
+        //3. 默认情形下，以下线程无后台线程：线程池中线程
+        private static void ThreadIsBackgroud()
+        {
+            Console.WriteLine($"{Thread.CurrentThread.Name}");
+            Thread thread = new Thread(() => { });
+            thread.IsBackground = true;
+            thread.Start();
         }
 
         //示例4——CurrentThread只读属性
@@ -95,7 +123,7 @@ namespace _000Thread类型
         }
 
         //示例5——Join()
-        //等待线程执行结束
+        //Join被翻译为汇合，其作用是：阻塞当前线程的执行，等到被调用Join的线程对象执行完毕值继续执行当前线程
         //首先我们要明确线程什么时候结束，一个线程结束的条件是其构造函数传入的委托执行完毕
         //同时：一个线程一旦执行完毕就无法再次重启该线程
         private static void ThreadJoin()
@@ -110,7 +138,7 @@ namespace _000Thread类型
             //若是我们期望等待次线程thread执行完毕再执行主线程，则次线程可以调用Join方法，将次线程加入到当前，将主线程设置为等待状态
             Thread thread2 = new Thread(() => { Thread.Sleep(2000); Console.WriteLine("waited 2s ,this my thread"); });
             thread2.Start();
-            thread2.Join();//将线程thread2加入此处，将本来要运行的主线程设置为等待状态
+            thread2.Join();//将线程thread2 join到此处，将本来要运行的主线程设置为等待状态（即阻塞当前的线程，执行thread2线程）
             Console.WriteLine("this main thread");
             //打印结果：
             //waited 2s ,this my thread
