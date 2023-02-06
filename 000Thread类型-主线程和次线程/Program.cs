@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace _000主线程和次线程
+namespace _000Thread类型_主线程和次线程
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             //Demo1
             //只有Main()创建的一个线程（主线程），所以程序会按照顺序执行下面两个函数,打印的结果就是显示从0到100
@@ -36,7 +36,7 @@ namespace _000主线程和次线程
             Console.ReadKey();
         }
 
-        static void Write0to50()
+        private static void Write0to50()
         {
             for (int i = 0; i <= 50; i++)
             {
@@ -44,7 +44,7 @@ namespace _000主线程和次线程
             }
         }
 
-        static void Write51to100()
+        private static void Write51to100()
         {
             //Console.WriteLine();
             for (int i = 51; i <= 100; i++)

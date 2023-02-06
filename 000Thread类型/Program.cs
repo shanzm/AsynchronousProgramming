@@ -81,25 +81,23 @@ namespace _000Thread类型
             thread.Start();//执行Start方法
             Console.WriteLine(thread.IsAlive);//True
             Console.WriteLine($"线程当前的状态{ thread.ThreadState}");//线程当前的状态：Running
-            //打印结果：
-            //线程当前状态：Unstarted
-            //False
-            //True
-            //线程当前状态：Running
-            //线程执行中
+                                                               //打印结果：
+                                                               //线程当前状态：Unstarted
+                                                               //False
+                                                               //True
+                                                               //线程当前状态：Running
+                                                               //线程执行中
 
             //注：IsActive:如果此线程已启动并且尚未正常终止或中止，则为 true；否则为 false。
             //注：如果只是想要知道一个线程是否在运行或者是否已经完成了所有的工作的话，可以使用IsAlive。
             //当然更全面的获得线程的详细的信息还是需要通过使用ThreadState来获取。
+
+            //ThreadState是一个枚举类型，大多数值是冗余的，无用的或是废弃的。一般就关注这四种类型：Unstarted、Running、WaitSleepJoin、Stopped
+            //注：ThreadState类型一般是用于调试使用，不适用实现同步。因为线程的状态可能在测试ThreadState和获取这个信息的时间段内发生变化
+            //简单的说就是要通过修改线程的ThreadState属性来实现某些功能
         }
 
-        //示例4-IsBackgroud属性
-        //设置 某个线程是否为后台线程。如果此线程为或将成为后台线程，则为 true；否则为 false。
-        //关于前台线程和后台线程：
-        //1. 后台线程无法阻止进程的终止，一旦属于进程的所有前台线程都执行完毕，公共语言进行时将结束该进程。所有剩余的后台线程将被停止
-        //2. 默认情形下，以下线程为前台线程：主线程、通过调用类构造函数创建的Thread
-        //3. 默认情形下，以下线程无后台线程：线程池中线程
-        private static void ThreadIsBackgroud()
+        public static void ThreadIsBackgroud()
         {
             Console.WriteLine($"{Thread.CurrentThread.Name}");
             Thread thread = new Thread(() => { });
@@ -122,8 +120,23 @@ namespace _000Thread类型
             Console.WriteLine($"当前运行的主线程{Thread.CurrentThread.ManagedThreadId}");
         }
 
+        ///什么是线程的挂起？
+        ///线程的挂起操作实质上就是线程进入"非可执行"状态下
+
+        ///在这个状态下CPU不会分给线程时间片，进入这个状态可以用来暂停一个线程的运行。
+        ///线程挂起后，可以通过重新唤醒线程来使之恢复运行。
+        ///注：当前线程被阻塞或是解除阻塞时，操作系统会进行一次上下文切换，这会导致细小的开销，一般在1到2毫秒左右
+
+        ///注意：
+        ///阻塞、挂起、睡眠三者是不一样的
+        ///阻塞是被动的，资源被其他线程抢占，一旦一个线程被阻塞，则操作系统主动释放该线程使用的CPU资源，让出资源给其他线程运行
+        ///挂起是主动进行挂起的，需要手动恢复，
+        ///睡眠也是主动的，但是睡眠是设置睡眠时间，所以睡眠是到了指定的时间后自动恢复的
+        ///注：阻塞不是ThreadState值，Suspend是ThreadState,但是随着Suspend()函数的弃用，Suspend状态也是被弃用的
+
         //示例5——Join()
-        //Join被翻译为汇合，其作用是：阻塞当前线程的执行，等到被调用Join的线程对象执行完毕值继续执行当前线程
+        //Join被翻译为汇合，其作用是：阻塞当前线程的执行，等到调用Join的线程对象执行完毕值继续执行当前线程
+        //简而言之：线程A调用了Join方法，则阻塞当前正在运行的线程，开始运行线程A中的委托对象
         //首先我们要明确线程什么时候结束，一个线程结束的条件是其构造函数传入的委托执行完毕
         //同时：一个线程一旦执行完毕就无法再次重启该线程
         private static void ThreadJoin()
@@ -143,6 +156,8 @@ namespace _000Thread类型
             //打印结果：
             //waited 2s ,this my thread
             //this main thread
+
+            //当线程thread2.Join(），此时主线程的ThreadState是WaitSleepJoin
         }
 
         #region 测试Join
@@ -190,8 +205,6 @@ namespace _000Thread类型
 
         #endregion
 
-        #region 挂起线程
-
         //示例5——Sleep()
         //线程休眠,线程挂起指定的时间
         //注：Sleep是Thread类的静态方法，在异步编程中，可以使用Sleep方法来等待其他线程完成某项操作
@@ -209,7 +222,7 @@ namespace _000Thread类型
             thread.Start();
         }
 
-        //示例6——Suspend()和Resume()
+        //示例6——弃用的挂起方法：Suspend()和Resume()
         //已经弃用的方法
         //Suspend:挂起当前线程，如果线程已经挂起，则Suspend不起作用
         //Resume:使已经挂起的线程继续执行
@@ -231,7 +244,5 @@ namespace _000Thread类型
             }
             Console.ReadKey();
         }
-
-        #endregion
     }
 }

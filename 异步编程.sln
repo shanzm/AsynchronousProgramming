@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "000主线程和次线程", "000主线程和次线程\000主线程和次线程.csproj", "{D5AD0BA9-55CB-4759-BA0E-1F67A7D2708A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "001多线程的执行顺序", "001多线程的执行顺序\001多线程的执行顺序.csproj", "{A99223C7-881F-4AC1-A1ED-AA956E3EDF5B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "002Task类的使用", "002Task类的使用\002Task类的使用.csproj", "{77507179-6AEA-43EF-BB2C-78E3CB13FA22}"
@@ -53,16 +51,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "000Thread类型-捕获异�
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroudWorker", "BackgroudWorker\BackgroudWorker.csproj", "{F589F65F-243A-4E25-8088-9CB8A15227A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "000Thread类型-主线程和次线程", "000Thread类型-主线程和次线程\000Thread类型-主线程和次线程.csproj", "{D5AD0BA9-55CB-4759-BA0E-1F67A7D2708A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "000Thread类型-本地状态和共享状态", "000Thread类型-本地状态和共享状态\000Thread类型-本地状态和共享状态.csproj", "{BA221EDB-D9A9-4108-98EF-1833E9611701}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D5AD0BA9-55CB-4759-BA0E-1F67A7D2708A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D5AD0BA9-55CB-4759-BA0E-1F67A7D2708A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D5AD0BA9-55CB-4759-BA0E-1F67A7D2708A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D5AD0BA9-55CB-4759-BA0E-1F67A7D2708A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A99223C7-881F-4AC1-A1ED-AA956E3EDF5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A99223C7-881F-4AC1-A1ED-AA956E3EDF5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A99223C7-881F-4AC1-A1ED-AA956E3EDF5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -155,6 +153,14 @@ Global
 		{F589F65F-243A-4E25-8088-9CB8A15227A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F589F65F-243A-4E25-8088-9CB8A15227A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F589F65F-243A-4E25-8088-9CB8A15227A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5AD0BA9-55CB-4759-BA0E-1F67A7D2708A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5AD0BA9-55CB-4759-BA0E-1F67A7D2708A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5AD0BA9-55CB-4759-BA0E-1F67A7D2708A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5AD0BA9-55CB-4759-BA0E-1F67A7D2708A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA221EDB-D9A9-4108-98EF-1833E9611701}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA221EDB-D9A9-4108-98EF-1833E9611701}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA221EDB-D9A9-4108-98EF-1833E9611701}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA221EDB-D9A9-4108-98EF-1833E9611701}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
