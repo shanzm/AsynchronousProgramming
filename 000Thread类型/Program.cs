@@ -244,5 +244,12 @@ namespace _000Thread类型
             }
             Console.ReadKey();
         }
+
+        #region 线程的优先级priority
+
+        //private enum ThreadPriority
+        //{ Lowest, BelowNoraml, Normal, AboveNormal, Hightest }
+
+        #endregion
     }
 }

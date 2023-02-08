@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace _000Thread类型_给线程传递数据
 {
@@ -15,10 +11,9 @@ namespace _000Thread类型_给线程传递数据
     //2.创建自定义类，将方法定义为实例中的方法，这样就可以在实例初始化的时候，赋值方法所需的参数
     //3.通过使用Lambda表达式调用函数
 
-
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             //1.方式1：
             //ThreadStartWithParam1();
@@ -42,57 +37,65 @@ namespace _000Thread类型_给线程传递数据
         }
 
         #region 1. 使用以ParameterizedThreadStart委托类型的为参数的Thread(）构造函数,并使用Thread.Start()来传递参数
+
         //ParameteriedThreadStart委托，其参数为object类型，且其为无返回值类型的委托
         //注意两点：参数为object类型；无返回值
         //这种方法是最原始的给线程传递参数的方法
-        static void Do(object obj)
+        private static void Do(object obj)
         {
             int n = (int)obj;
             Console.WriteLine($"方法1：新开线程执行方法，其参数是{n}");
         }
-        static void ThreadStartWithParam1()
+
+        private static void ThreadStartWithParam1()
         {
             Thread thread = new Thread(Do);//这里的Do函数就是ParameterizedThreadStart类型的委托
             int n = 999;
             thread.Start(n);//在Start函数中传递参数
         }
+
         #endregion
 
         #region 2. 使用自定义类，将方法封装，则在自定义类实例化的时候，传递参数
+
         //期望在新开线程中执行Do(int n)方法，我们将其封装在MyClass类中，其参数直接定义为一个类的属性
         /// <summary>
         /// 定义一个类，将我们需要在新开线程中执行的方法，封装起来，
         /// 通过类的实例化给该函数中变量赋值（相当于传递参数）
         /// </summary>
-        class MyClass
+        private class MyClass
         {
             public int param { get; set; }
 
             public MyClass(int n)
             {
-                this.param = n;
+                param = n;
             }
+
             public void Do()
             {
                 Console.WriteLine($"方法2：新开线程执行方法，其参数是{param}");
             }
         }
-        static void ThreadStartWithParam2()
+
+        private static void ThreadStartWithParam2()
         {
             MyClass myClass = new MyClass(999);
             Thread thread = new Thread(myClass.Do);
             thread.Start();
         }
+
         #endregion
 
         #region 3. 使用Lambda表达式,在Lambda表达式中调用指定的函数
+
         //在C#3.0之前没有Lambda表达式，所以C#3.0之前一般只能使用上述两种方法
-        static void Do(int n, int m)
+        private static void Do(int n, int m)
         {
             Console.WriteLine(n * m);
         }
 
-        static void ThreadStartWithParam3()
+        private static void ThreadStartWithParam3()
         {
             Thread thread1 = new Thread(() => Do(2, 3));//定义一个Lambda表达式，调用Do()函数
                                                         //() => Do(2, 3);
@@ -107,7 +110,8 @@ namespace _000Thread类型_给线程传递数据
         #endregion
 
         #region 4. 关于使用Lambda表达式给线程传递参数可能出现的问题
-        static void TestLambda()
+
+        private static void TestLambda()
         {
             //for (int i = 0; i < 10; i++)
             //{
@@ -120,7 +124,6 @@ namespace _000Thread类型_给线程传递数据
             //为什么会出现重复的数字呢？
             //因为在这个循环中10个线程都是在操作内存中同一个位置上的变量i
             //所以某个循环步骤的中创建的线程在调用Console.WriteLine()打印i的时候，i又被别的线程修改了
-
 
             //针对上述的问题，解决方案：为循环变量创建一个临时变量
             for (int i = 0; i < 10; i++)
@@ -135,61 +138,59 @@ namespace _000Thread类型_给线程传递数据
                 //其实，这就是说使用往线程中传递某个变量，一定注意这个变量与此同时有可能会被其他线程修改
             }
         }
-        #endregion
 
+        #endregion
 
         #region 5. 使用ParameteriedThreadStart委托，实现多参并带有返回值
 
         //构造辅助类，注意这里不能使用struct结构体，因为struct为值类型
-        class TempClass
+        private class TempClass
         {
             public int X { get; set; }
             public int Y { get; set; }
             public int Ret { get; set; }
         }
 
-        static void DoWithParam(object obj)
+        private static void DoWithParam(object obj)
         {
             TempClass tempClass = obj as TempClass;
             tempClass.Ret = tempClass.X + tempClass.Y;
         }
 
-        static void GetReturnValue()
+        private static void GetReturnValue()
         {
             Thread thread = new Thread(DoWithParam);
             TempClass tempClass = new TempClass() { X = 1, Y = 2 };
             thread.Start(tempClass);
             thread.Join();//注意这里表示等待tempClass线程执行完成
             Console.WriteLine($"实现获取到返回值：{tempClass.Ret}");
-
         }
+
         #endregion
 
         #region 6. 上述写法可以改为类似 2中的自定义辅助类，将期望在线程中执行的方法也封装起来
-        class TempClass2
+
+        private class TempClass2
         {
             public int X { get; set; }
             public int Y { get; set; }
             public int Ret { get; set; }
+
             public void DoWithParam()
             {
                 Ret = X + Y;
             }
         }
-        static void GetReturnValue2()
+
+        private static void GetReturnValue2()
         {
             TempClass2 tempClass2 = new TempClass2() { X = 1, Y = 2 };
             Thread thread = new Thread(tempClass2.DoWithParam);
             thread.Start();
             thread.Join();//注意这里表示等待tempClass线程执行完成
             Console.WriteLine($"实现获取到返回值：{tempClass2.Ret}");
-
         }
 
         #endregion
     }
-
-
-
-
 }
