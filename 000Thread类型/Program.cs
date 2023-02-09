@@ -12,7 +12,7 @@ namespace _000Thread类型
         {
             //ThreadStart();//创建一个线程，并使用Start方法
 
-            ThreadStartWithLambda();//Start方法执行Lambda
+            //ThreadStartWithLambda();//Start方法执行Lambda
 
             //ThreadState();//ThreadState属性，IsActive属性，Name属性
 
@@ -25,6 +25,8 @@ namespace _000Thread类型
             //ThreadJoin2();
 
             //ThreadSuspend();//挂起线程，继续已挂起的线程
+
+            TestPriority();//测试线程的优先级
 
             Console.ReadKey();
         }
@@ -249,6 +251,36 @@ namespace _000Thread类型
 
         //private enum ThreadPriority
         //{ Lowest, BelowNoraml, Normal, AboveNormal, Hightest }
+        //注意：线程的优先级一般用在线程调优，
+        //      线程的优先级越高并不意味着该线程比优先级低的线程先执行，
+        //      线程是抢占式的，优先级越高CPU分配给该线程的的时间片越多，执行时间就多
+
+        public static void TestPriority()
+        {
+            Thread threadA = new Thread(PrintCurrentThreadName); threadA.Name = "A";
+            Thread threadB = new Thread(PrintCurrentThreadName); threadB.Name = "B";
+            Thread threadC = new Thread(PrintCurrentThreadName); threadC.Name = "C";
+
+            //线程的优先级默认是Normal
+            threadA.Priority = ThreadPriority.Highest;
+            threadB.Priority = ThreadPriority.Lowest;
+            //1.线程的Start(）并不表示线程立即执行，要等待系统调度
+            //2.线程的优先级高并不意味着先执行
+            //所以这里具体是threadA和threadB哪个先执行是不确定的
+            threadB.Start();
+            threadA.Start();
+            threadC.Start();
+
+            //从打印结果可以看到
+        }
+
+        public static void PrintCurrentThreadName()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                Console.Write(Thread.CurrentThread.Name);
+            }
+        }
 
         #endregion
     }
