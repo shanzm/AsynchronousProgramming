@@ -26,7 +26,9 @@ namespace _000Thread类型
 
             //ThreadSuspend();//挂起线程，继续已挂起的线程
 
-            TestPriority();//测试线程的优先级
+            //TestPriority();//测试线程的优先级
+
+            ThreadAbort();//测试线程的Abort
 
             Console.ReadKey();
         }
@@ -247,14 +249,12 @@ namespace _000Thread类型
             Console.ReadKey();
         }
 
-        #region 线程的优先级priority
-
+        //示例7——线程的优先级priority
         //private enum ThreadPriority
         //{ Lowest, BelowNoraml, Normal, AboveNormal, Hightest }
         //注意：线程的优先级一般用在线程调优，
         //      线程的优先级越高并不意味着该线程比优先级低的线程先执行，
         //      线程是抢占式的，优先级越高CPU分配给该线程的的时间片越多，执行时间就多
-
         public static void TestPriority()
         {
             Thread threadA = new Thread(PrintCurrentThreadName); threadA.Name = "A";
@@ -282,6 +282,47 @@ namespace _000Thread类型
             }
         }
 
-        #endregion
+        //示例8——终止线程
+        //使用abort()可以终止线程，其本质是抛出一个ThreadAbortException异常，导致线程被终结
+        //这是非常危险的，该异常可以在任何时刻发生并可能造成程序的崩溃，
+        //所以不推荐使用abort函数，可以优先使用其他方法，比如说终止线程的常规操作是使用CancellationToken的方式
+        //注：线程终止后可以重新启动，而某个线程结束后是无法再次重启的
+        private static void ThreadAbort()
+        {
+            Thread thread = new Thread(TestThreadAbort);
+            thread.Start();
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            thread.Abort();
+
+            Console.WriteLine(thread.ThreadState);//线程执行了abort函数后，其状态为：AbortRequested或Aborted
+
+            //Thread.Sleep(TimeSpan.FromSeconds(2));
+            //Console.WriteLine("这是主线程");
+        }
+
+        private static void TestThreadAbort()
+        {
+            try
+            {
+                for (int i = 0; i < 1000; i++)
+                {
+                    Thread.Sleep(TimeSpan.FromSeconds(1));
+                    Console.WriteLine(i);
+                }
+            }
+            //这里用于测试捕获 ThreadAbortThread
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.GetType().ToString());//打印：System.Threading.ThreadAbortException
+                Console.WriteLine(ex.Message);//打印：正在中止线程
+                Thread.ResetAbort();
+                //undone:这里我想要通过ResetAbort函数取消终止线程的行为，但是没有成功！why?
+                //ResetAbort是Thread类的静态函数，只能Threa.ResetAbort调用
+
+                Console.WriteLine(Thread.CurrentThread.ThreadState);
+            }
+        }
     }
 }
