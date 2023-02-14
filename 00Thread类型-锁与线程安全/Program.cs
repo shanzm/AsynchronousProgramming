@@ -53,5 +53,23 @@ namespace _000Thread类型_锁与线程安全
         }
 
         #endregion
+
+        #region 测试死锁
+
+        private static readonly object lokcer1 = new object();
+        private static readonly object lokcer2 = new object();
+
+        private static void LockTooMuch(object locker1, object locker2)
+        {
+            lock (lokcer1)
+            {
+                Thread.Sleep(1000);
+                lock (lokcer2) { };
+            }
+        }
+
+        //private new Thread(()=> )
+
+        #endregion
     }
 }
