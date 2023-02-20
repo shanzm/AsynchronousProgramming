@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace _000Thread类型_锁与线程安全
 {
@@ -16,7 +12,9 @@ namespace _000Thread类型_锁与线程安全
             //Go();
 
             //测试死锁
-            TestDeadLock();
+            //TestDeadLock();
+
+            TestMonitorTryEnter();
 
             Console.ReadKey();
         }
@@ -94,11 +92,36 @@ namespace _000Thread类型_锁与线程安全
             thread2.Start();
         }
 
-        ///形成死锁的原因
-        ///1. 互斥条件
+        //形成死锁的原因
+        //1. 互斥条件
 
         //解决死锁的办法
         //1. 使用Monitor.TryEnter()方法。可以解决死锁问题，但是最会避免出现死锁的情形
+        private static void TestMonitorTryEnter()
+        {
+            Thread thread1 = new Thread(() => LockTooMuch(locker1, locker2)); thread1.Name = "thread1";
+            Thread thread2 = new Thread(() => TestMonitor(locker2, locker1)); thread2.Name = "thread2";
+            thread1.Start();
+            thread2.Start();
+        }
+
+        private static void TestMonitor(object lockerA, object lockerB)
+        {
+            lock (lockerB)
+            {
+                Thread.Sleep(1000);
+                //在指定的时间内尝试获取对象的排他锁，如果当前线程获取该锁，则为true,否则为false
+                //简而言之：Monitor.TryEnter是用于检查锁对象在指定的时间内是否释放子夜，如果释放则为true
+                if (Monitor.TryEnter(lockerA, 1000))
+                {
+                    Console.WriteLine(Thread.CurrentThread.Name + ":获取一个受保护的资源成功");
+                }
+                else
+                {
+                    Console.WriteLine("获取资源超时");
+                }
+            }
+        }
 
         #endregion
     }
