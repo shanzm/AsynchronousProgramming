@@ -5,6 +5,10 @@ namespace _000Thread类型_锁与线程安全
 {
     internal class Program
     {
+        //什么是线程安全，什么是非线程安全
+        //非线程安全：在运行中不提供数据访问保护，这就可能导致多个线程先后更改数据，最后所得的数据是脏数据。
+        //线程安全：多线程访问时，采用了加锁机制，当一个线程访问该类的某个数据时，进行保护，其他线程不能进行访问直到该线程读取完，其他线程才可使用。不会出现数据不一致或者数据污染
+        //单线程则同一时间内只有一个线程操作数据，故单线程是线程安全的。
         private static void Main(string[] args)
         {
             //因为Go中有加锁，所以任何情形下都不会出现打印两次的情形，一定是打印一次
@@ -19,7 +23,7 @@ namespace _000Thread类型_锁与线程安全
             Console.ReadKey();
         }
 
-        #region lock关键字
+        #region 加锁-lock关键字
 
         ///1. lock关键字，将一段代码定义为互斥段，互斥段在一个时刻内只允许一个线程进入执行，而其他线程必须等待。
         ///lock区域内的代码标识临界区，实现同一时间只有一个线程能够进入lock所包含的代码块中
@@ -55,9 +59,12 @@ namespace _000Thread类型_锁与线程安全
 
         #endregion
 
-        #region 测试死锁
+        #region 测试死锁-案例1
+
+        //死锁是什么?两个线程互相等待对方占用的资源就会使双方都无法继续执行，从而形成死锁。
 
         private static readonly object locker1 = new object();
+
         private static readonly object locker2 = new object();
 
         private static void LockTooMuch(object lockerA, object lockerB)
@@ -74,8 +81,6 @@ namespace _000Thread类型_锁与线程安全
             }
         }
 
-        //测试死锁
-        //死锁是什么?两个线程互相等待对方占用的资源就会使双方都无法继续执行，从而形成死锁。
         private static void TestDeadLock()
         {
             //创建两个线程thread1和thread2,当一个线程thread1占用资源lockerA时，再去请求另外一个资源lockerB时
@@ -92,11 +97,9 @@ namespace _000Thread类型_锁与线程安全
             thread2.Start();
         }
 
-        //形成死锁的原因
-        //1. 互斥条件
+        #endregion
 
-        //解决死锁的办法
-        //1. 使用Monitor.TryEnter()方法。可以解决死锁问题，但是最会避免出现死锁的情形
+        //2. 使用Monitor.TryEnter()方法。可以解决死锁问题，但是最会避免出现死锁的情形
         private static void TestMonitorTryEnter()
         {
             Thread thread1 = new Thread(() => LockTooMuch(locker1, locker2)); thread1.Name = "thread1";
@@ -122,7 +125,5 @@ namespace _000Thread类型_锁与线程安全
                 }
             }
         }
-
-        #endregion
     }
 }
