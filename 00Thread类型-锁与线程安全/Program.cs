@@ -59,7 +59,7 @@ namespace _000Thread类型_锁与线程安全
 
         #endregion
 
-        #region 测试死锁-案例1
+        #region 测试死锁-案例1——C#7.0核心技术指南
 
         //死锁是什么?两个线程互相等待对方占用的资源就会使双方都无法继续执行，从而形成死锁。
 
@@ -95,6 +95,22 @@ namespace _000Thread类型_锁与线程安全
             //多线程避免死锁关键，锁定对象顺序要相同。
             thread1.Start();
             thread2.Start();
+        }
+
+        #endregion
+
+        #region 测试死锁-案例2-C#高级编程第九版21.7.2
+
+        private static readonly StateObject t1;
+        private static readonly StateObject t2;
+
+        public void Deadlock()
+        {
+            int i = 0;
+            while (true)
+            {
+                lock
+            }
         }
 
         #endregion
